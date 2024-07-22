@@ -208,19 +208,6 @@ create table if not exists CharacterSpellSlots (
     foreign key (characterId) references Characters (id) on delete cascade
 );
 
-/* Jack of all trades in features table
- * Proficiency in proficiencies table
-*/
-create table if not exists CharacterSkills (
-    id integer primary key autoincrement not null unique,
-    modifier integer not null,
-    expertise integer not null,
-    characterId integer not null,
-    skillId integer not null,
-    foreign key (characterId) references Characters (id) on delete cascade,
-    foreign key (skillId) references Skills (id) on delete cascade
-);
-
 create table if not exists Items (
     id integer primary key autoincrement not null unique,
     name text not null unique,
@@ -287,17 +274,21 @@ create table if not exists Races (
 /*******************************************
   Join Tables
 ********************************************/
+
+
+/* Jack of all trades in features table
+ * Proficiency in proficiencies table
+*/
 create table if not exists CharacterSkills (
     id integer primary key autoincrement not null unique,
     modifier integer not null,
-    proficiency integer not null,
     expertise integer not null,
-    jackOfAllTrades integer not null,
     characterId integer not null,
     skillId integer not null,
     foreign key (characterId) references Characters (id) on delete cascade,
     foreign key (skillId) references Skills (id) on delete cascade
 );
+
 create table if not exists CharacterLanguages (
     id integer primary key autoincrement not null unique,
     characterId integer not null,
