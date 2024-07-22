@@ -9,7 +9,8 @@ public class CharacterAbilityScore extends SecondaryModel {
     private final int charisma;
 
 
-    public CharacterAbilityScore(int id, int foreignKey, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
+    public CharacterAbilityScore(int id, int foreignKey, int strength, int dexterity, int constitution,
+                                 int intelligence, int wisdom, int charisma) {
         super(id, foreignKey);
         this.strength = strength;
         this.dexterity = dexterity;
@@ -20,26 +21,26 @@ public class CharacterAbilityScore extends SecondaryModel {
     }
 
     public int getStrength() {
-        return strength;
+        return this.strength;
     }
 
     public int getDexterity() {
-        return dexterity;
+        return this.dexterity;
     }
 
     public int getConstitution() {
-        return constitution;
+        return this.constitution;
     }
 
     public int getIntelligence() {
-        return intelligence;
+        return this.intelligence;
     }
 
     public int getWisdom() {
-        return wisdom;
+        return this.wisdom;
     }
 
     public int getCharisma() {
-        return charisma;
+        return this.charisma;
     }
 }
