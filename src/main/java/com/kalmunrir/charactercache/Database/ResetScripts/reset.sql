@@ -176,7 +176,10 @@ create table if not exists CharacterWealth (
     electrumPieces integer not null,
     goldPieces integer not null,
     platinumPieces integer not null,
-    totalWealth REAL not null,
+    totalWealth real generated always as
+        ((platinumPieces * 10) + (goldPieces) +
+         (electrumPieces * .5) + (silverPieces * .1) +
+         (copperPieces * .01)) virtual not null,
     characterId integer not null,
     foreign key (characterId) references Characters (id) on delete cascade
 );
