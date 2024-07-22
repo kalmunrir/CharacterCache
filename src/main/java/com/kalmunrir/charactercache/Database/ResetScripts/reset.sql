@@ -15,7 +15,6 @@ drop table if exists Languages;
 drop table if exists Features;
 drop table if exists Spells;
 /* Secondary Tables */
-drop table if exists CharacterBaseRolls;
 drop table if exists CharacterAbilityScores;
 drop table if exists CharacterSurvivability;
 drop table if exists CharacterWealth;
@@ -142,18 +141,6 @@ create table if not exists Spells (
 /*******************************************
   Secondary Tables
 ********************************************/
-create table if not exists CharacterBaseRolls (
-    id integer primary key autoincrement not null unique,
-    strengthRoll integer not null,
-    dexterityRoll integer not null,
-    constitutionRoll integer not null,
-    intelligenceRoll integer not null,
-    wisdomRoll integer not null,
-    charismaRoll integer not null,
-    characterId integer not null,
-    foreign key (characterId) references Characters (id) on delete cascade
-);
-
 create table if not exists CharacterAbilityScores (
     id integer primary key autoincrement not null unique,
     strength integer not null,
