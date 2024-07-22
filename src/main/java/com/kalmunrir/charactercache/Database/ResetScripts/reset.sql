@@ -373,6 +373,7 @@ create table if not exists CharacterJobs (
     id integer primary key autoincrement not null unique,
     first integer not null,
     level integer not null,
+    isXP integer not null,
     currentXP integer,
     xpToLevelUp integer,
     currentNumHitDie integer not null,
