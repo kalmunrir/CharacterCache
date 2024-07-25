@@ -52,8 +52,36 @@ public class CRUDHelper {
 
     }
 
-    public static void update(String tablename) {
+    public static void update(String tablename, int id, String[] columnNames, Object[] values, int[] types) {
+        StringBuilder sql = new StringBuilder("UPDATE " + tablename + " SET ");
+        for (int i = 0; i < columnNames.length; i++) {
+            sql.append(columnNames[i]);
+            sql.append(" = ?");
+            if (i != columnNames.length - 1) {
+                sql.append(", ");
+            }
+        }
+        sql.append(" WHERE id = ?;");
 
+        try (Connection conn = Database.connect()) {
+            PreparedStatement ps = conn.prepareStatement(sql.toString());
+            for (int i = 0; i < values.length; i++) {
+                if (types[i] == Types.INTEGER) {
+                    ps.setInt(i, (int) values[i]);
+                }
+                else if (types[i] == Types.VARCHAR) {
+                    ps.setString(i, (String) values[i]);
+                }
+            }
+            ps.setInt(values.length, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(
+                    Level.SEVERE,
+                    LocalDateTime.now() + ": Could not update entry: " + id + " in " +
+                            tablename + " because " + e.getCause()
+            );
+        }
     }
 
     public static int delete(String tableName, int id) {
