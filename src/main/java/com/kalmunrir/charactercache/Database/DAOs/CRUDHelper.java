@@ -1,5 +1,6 @@
 package com.kalmunrir.charactercache.Database.DAOs;
 
+import javafx.scene.chart.PieChart;
 import org.sqlite.SQLiteException;
 
 import java.sql.*;
@@ -48,9 +49,39 @@ public class CRUDHelper {
         }
     }
 
-    public static void read(String tablename) {
+    public static ResultSet read(String tablename) {
+        String sql = "SELECT * FROM " + tablename + ";";
 
+        try (Connection conn = Database.connect()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            return ps.executeQuery();
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(
+                    Level.SEVERE,
+                    LocalDateTime.now() + ": Could not read from " + tablename + " because " + e.getCause()
+            );
+            return null;
+        }
     }
+
+    public static ResultSet readById(String tablename, int id) {
+        String sql = "SELECT * FROM " + tablename + " WHERE id = ?;";
+
+        try (Connection conn = Database.connect()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            return ps.executeQuery();
+        } catch (SQLException e) {
+            Logger.getAnonymousLogger().log(
+                    Level.SEVERE,
+                    LocalDateTime.now() + ": Could not read entry: " + id + " from " + tablename +
+                            " because " + e.getCause()
+            );
+            return null;
+        }
+    }
+
+
 
     public static void update(String tablename, int id, String[] columnNames, Object[] values, int[] types) {
         StringBuilder sql = new StringBuilder("UPDATE " + tablename + " SET ");
