@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CRUDHelper {
-    public static ResultSet create(String tableName, String[] columnNames, Object[] values, int[] types) {
+    public static int create(String tableName, String[] columnNames, Object[] values, int[] types) {
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + " (");
 
         // Building the query
@@ -35,15 +35,18 @@ public class CRUDHelper {
                     ps.setString(i, (String) values[i]);
                 }
             }
-            return ps.executeQuery();
+            try(ResultSet rs = ps.executeQuery()){
+                if (rs.next()) return rs.getInt(1);
+            }
         } catch (SQLException e) {
             Logger.getAnonymousLogger().log(
                     Level.SEVERE,
                     LocalDateTime.now() + ": Could not insert entry into " +
                             tableName + " because " + e.getCause()
             );
-            return null;
+            return 0;
         }
+        return 0;
     }
 
     public static ResultSet read(String tableName) {
